@@ -4,6 +4,8 @@
 AS ?= as
 LD ?= ld
 
+all: biu
+
 biu: main.o
 	$(LD) -o $@ $^
 
@@ -19,7 +21,7 @@ main.o: main.s runtime.s
 test: biu
 	./test.sh
 
-.PHONY: test clean
+.PHONY: all test clean
 clean:
 	$(RM) -f *.o biu main.s
 

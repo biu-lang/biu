@@ -5,6 +5,7 @@ output/
 *.o
 *.exe
 *.tmp
+main.s
 
 biu
 
