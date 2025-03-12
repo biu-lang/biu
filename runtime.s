@@ -1,8 +1,14 @@
-# runtime
+# Runtime
 .text
 .globl _start
 _start:
-	movq $1, %rdi
-	movq $60, %rax	# exit
+	call main.main
+
+# .globl os.Exit
+os.Exit:
+	movq 8(%rsp), %rdi	# arg1
+	movq $60, %rax			# exit
 	syscall
+
+# End of program
 
