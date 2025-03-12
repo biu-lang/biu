@@ -30,6 +30,11 @@ func emitExpr(expr ast.Expr) {
 			fmt.Printf("  popq %%rax # lsh\n")
 			fmt.Printf("  subq %%rdi, %%rax\n")
 			fmt.Printf("  pushq %%rax\n")
+		} else if e.Op.String() == "*" {
+			fmt.Printf("  popq %%rdi # rhs\n")
+			fmt.Printf("  popq %%rax # rhs\n")
+			fmt.Printf("  imulq %%rdi, %%rax\n")
+			fmt.Printf("  pushq %%rax\n")
 		} else {
 			panic(fmt.Sprintf("Unexpected binary operator %s", e.Op))
 		}
@@ -41,7 +46,7 @@ func emitExpr(expr ast.Expr) {
 }
 
 func main() {
-	source := "12 - 9"
+	source := "4 * 8"
 	expr, err := parser.ParseExpr(source)
 	if err != nil {
 		panic(err)
