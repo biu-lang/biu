@@ -10,18 +10,33 @@ import (
 func emitExpr(expr ast.Expr) {
 	switch e := expr.(type) {
 	case *ast.BasicLit:
+		fmt.Printf("# start %T\n", e)
 		val := e.Value
 		ival, _ := strconv.Atoi(val)
-		fmt.Printf("# %T\n", expr)
 		fmt.Printf("  movq $%d, %%rax\n", ival)
 		fmt.Printf("  pushq %%rax\n")
+		fmt.Printf("# end %T\n", e)
+	case *ast.BinaryExpr:
+		fmt.Printf("# start %T\n", e)
+		emitExpr(e.X)
+		emitExpr(e.Y)
+		if e.Op.String() == "+" {
+			fmt.Printf("  popq %%rax\n")
+			fmt.Printf("  popq %%rdi\n")
+			fmt.Printf("  addq %%rdi, %%rax\n")
+			fmt.Printf("  pushq %%rax\n")
+		} else {
+			panic(fmt.Sprintf("Unexpected binary operator %s", e.Op))
+		}
+		fmt.Printf("# end %T\n", e)
+
 	default:
-		panic(fmt.Sprintf("Unexpected expr type %T", expr))
+		panic(fmt.Sprintf("Unexpected expr type %T", e))
 	}
 }
 
 func main() {
-	source := "1"
+	source := "1 + 2"
 	expr, err := parser.ParseExpr(source)
 	if err != nil {
 		panic(err)

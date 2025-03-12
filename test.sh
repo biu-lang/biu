@@ -3,7 +3,7 @@
 
 ./biu
 
-if [[ $? -eq 1 ]]; then
+if [[ $? -eq 3 ]]; then
   echo ok
 else
   echo error
