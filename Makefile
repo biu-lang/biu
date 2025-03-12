@@ -9,7 +9,7 @@ all: biu
 biu: main.o
 	$(LD) -o $@ $^
 
-main.s: main.go
+main.s: main.go t/source.go
 	go run main.go > main.s
 
 %.o:%.s
