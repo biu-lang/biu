@@ -1,0 +1,10 @@
+.idea/
+build/
+output/
+
+*.o
+*.exe
+*.tmp
+
+biu
+
